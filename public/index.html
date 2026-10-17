@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scopone Scientifico in 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Schermata di Login / Entrata al Tavolo -->
+    <div id="login-screen" class="screen">
+        <div class="login-box">
+            <h2>Scopone Scientifico</h2>
+            <p>Inserisci il tuo nome per sederti al tavolo</p>
+            <input type="text" id="username-input" placeholder="Il tuo nome..." maxlength="15">
+            <button id="join-btn" class="btn">Entra in Partita</button>
+        </div>
+    </div>
+
+    <!-- Schermata di Gioco -->
+    <div id="game-screen" class="screen hidden">
+        <header>
+            <div id="room-info">Stanza: <span id="player-count">0</span>/4 Giocatori</div>
+            <div id="turn-info">In attesa di altri giocatori...</div>
+        </header>
+
+        <div class="table-container">
+            <!-- Informazioni Squadre / Punteggi -->
+            <div class="scoreboard">
+                <div class="team-score">Squadra 1: <span id="score-team-1">0</span> pt</div>
+                <div class="team-score">Squadra 2: <span id="score-team-2">0</span> pt</div>
+            </div>
+
+            <!-- Tavolo da Gioco (Carte centrali) -->
+            <div class="felt-table">
+                <h3>Tavolo</h3>
+                <div id="table-cards" class="card-zone">
+                    <!-- Le carte in tavola compariranno qui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Area Giocatore (Mano e Azioni) -->
+        <div class="player-area">
+            <div class="player-info">
+                <span id="my-name">Giocatore</span> (<span id="my-team">Squadra -</span>)
+            </div>
+            <div id="my-hand" class="card-zone">
+                <!-- Le tue carte compariranno qui -->
+            </div>
+            <div class="action-panel">
+                <button id="play-btn" class="btn" disabled>Gioca Carta / Prendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclusione di Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

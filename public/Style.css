@@ -1,0 +1,226 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121824;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.screen {
+    width: 100%;
+    max-width: 900px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Schermata Login */
+#login-screen {
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.login-box input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    margin-right: 10px;
+    width: 200px;
+}
+
+/* Header e Punteggi */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.scoreboard {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+/* Tavolo Verde */
+.table-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.felt-table {
+    background: #065f46; /* Verde panno */
+    border: 8px solid #042f2e;
+    border-radius: 16px;
+    width: 80%;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+    position: relative;
+}
+
+.felt-table h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #a7f3d0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Zone delle Carte */
+.card-zone {
+    display: flex;
+    gap: 10px;
+    min-height: 100px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Stile della Carta con Sprite Sheet (10 colonne x 4 righe) */
+.card {
+    width: 60px;
+    height: 90px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    user-select: none;
+    transition: transform 0.2s, border 0.2s;
+    box-sizing: border-box;
+    
+    /* Configurazione dello Sprite Sheet */
+    background-image: url('../img/Carte_napoletane_al_completo.jpg');
+    background-size: 1000% 400%; /* 10 colonne (1000%) e 4 righe (400%) */
+    background-repeat: no-repeat;
+    
+    /* Nasconde il testo di fallback originario */
+    font-size: 0;
+    color: transparent;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card.selected {
+    border: 3px solid #38bdf8;
+    transform: translateY(-10px);
+}
+
+/* Mappatura delle 4 righe (semi) e 10 colonne (valori da 1 a 10) */
+/* Ordine tipico dei semi nello sprite: Denari, Coppe, Spade, Bastoni */
+
+/* 1. DENARI (Riga 0) */
+.card.denari[data-value="1"],  .card.denari[data-val="1"]  { background-position: 0% 0%; }
+.card.denari[data-value="2"],  .card.denari[data-val="2"]  { background-position: 11.11% 0%; }
+.card.denari[data-value="3"],  .card.denari[data-val="3"]  { background-position: 22.22% 0%; }
+.card.denari[data-value="4"],  .card.denari[data-val="4"]  { background-position: 33.33% 0%; }
+.card.denari[data-value="5"],  .card.denari[data-val="5"]  { background-position: 44.44% 0%; }
+.card.denari[data-value="6"],  .card.denari[data-val="6"]  { background-position: 55.55% 0%; }
+.card.denari[data-value="7"],  .card.denari[data-val="7"]  { background-position: 66.66% 0%; }
+.card.denari[data-value="8"],  .card.denari[data-val="8"]  { background-position: 77.77% 0%; }
+.card.denari[data-value="9"],  .card.denari[data-val="9"]  { background-position: 88.88% 0%; }
+.card.denari[data-value="10"], .card.denari[data-val="10"] { background-position: 100% 0%; }
+
+/* 2. COPPE (Riga 1) */
+.card.coppe[data-value="1"],  .card.coppe[data-val="1"]  { background-position: 0% 33.33%; }
+.card.coppe[data-value="2"],  .card.coppe[data-val="2"]  { background-position: 11.11% 33.33%; }
+.card.coppe[data-value="3"],  .card.coppe[data-val="3"]  { background-position: 22.22% 33.33%; }
+.card.coppe[data-value="4"],  .card.coppe[data-val="4"]  { background-position: 33.33% 33.33%; }
+.card.coppe[data-value="5"],  .card.coppe[data-val="5"]  { background-position: 44.44% 33.33%; }
+.card.coppe[data-value="6"],  .card.coppe[data-val="6"]  { background-position: 55.55% 33.33%; }
+.card.coppe[data-value="7"],  .card.coppe[data-val="7"]  { background-position: 66.66% 33.33%; }
+.card.coppe[data-value="8"],  .card.coppe[data-val="8"]  { background-position: 77.77% 33.33%; }
+.card.coppe[data-value="9"],  .card.coppe[data-val="9"]  { background-position: 88.88% 33.33%; }
+.card.coppe[data-value="10"], .card.coppe[data-val="10"] { background-position: 100% 33.33%; }
+
+/* 3. BASTONI (Ora alla Riga 2 - 66.66%) */
+.card.bastoni[data-value="1"],  .card.bastoni[data-val="1"]  { background-position: 0% 66.66%; }
+.card.bastoni[data-value="2"],  .card.bastoni[data-val="2"]  { background-position: 11.11% 66.66%; }
+.card.bastoni[data-value="3"],  .card.bastoni[data-val="3"]  { background-position: 22.22% 66.66%; }
+.card.bastoni[data-value="4"],  .card.bastoni[data-val="4"]  { background-position: 33.33% 66.66%; }
+.card.bastoni[data-value="5"],  .card.bastoni[data-val="5"]  { background-position: 44.44% 66.66%; }
+.card.bastoni[data-value="6"],  .card.bastoni[data-val="6"]  { background-position: 55.55% 66.66%; }
+.card.bastoni[data-value="7"],  .card.bastoni[data-val="7"]  { background-position: 66.66% 66.66%; }
+.card.bastoni[data-value="8"],  .card.bastoni[data-val="8"]  { background-position: 77.77% 66.66%; }
+.card.bastoni[data-value="9"],  .card.bastoni[data-val="9"]  { background-position: 88.88% 66.66%; }
+.card.bastoni[data-value="10"], .card.bastoni[data-val="10"] { background-position: 100% 66.66%; }
+
+/* 4. SPADE (Ora alla Riga 3 - 100%) */
+.card.spade[data-value="1"],  .card.spade[data-val="1"]  { background-position: 0% 100%; }
+.card.spade[data-value="2"],  .card.spade[data-val="2"]  { background-position: 11.11% 100%; }
+.card.spade[data-value="3"],  .card.spade[data-val="3"]  { background-position: 22.22% 100%; }
+.card.spade[data-value="4"],  .card.spade[data-val="4"]  { background-position: 33.33% 100%; }
+.card.spade[data-value="5"],  .card.spade[data-val="5"]  { background-position: 44.44% 100%; }
+.card.spade[data-value="6"],  .card.spade[data-val="6"]  { background-position: 55.55% 100%; }
+.card.spade[data-value="7"],  .card.spade[data-val="7"]  { background-position: 66.66% 100%; }
+.card.spade[data-value="8"],  .card.spade[data-val="8"]  { background-position: 77.77% 100%; }
+.card.spade[data-value="9"],  .card.spade[data-val="9"]  { background-position: 88.88% 100%; }
+.card.spade[data-value="10"], .card.spade[data-val="10"] { background-position: 100% 100%; }
+
+/* Area Giocatore in basso */
+.player-area {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.player-info {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+/* Pulsanti */
+.btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background-color: #1d4ed8;
+}
+
+.btn:disabled {
+    background-color: #475569;
+    cursor: not-allowed;
+}
