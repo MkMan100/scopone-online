@@ -40,6 +40,11 @@ io.on('connection', (socket) => {
             return;
         }
 
+        // Se è stata fatta una scopa, avvisa tutti i client
+        if (result.isScopa) {
+            io.emit('scopa-made');
+        }
+
         updateGameState();
 
         if (result.handOver) {
