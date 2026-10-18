@@ -19,6 +19,11 @@ const myTeamSpan = document.getElementById('my-team');
 const playBtn = document.getElementById('play-btn');
 const turnInfo = document.getElementById('turn-info');
 
+// Elementi per modale punteggi e banner scopa
+const scoreModal = document.getElementById('score-modal');
+const scoreBreakdown = document.getElementById('score-breakdown');
+const scopaAnnouncement = document.getElementById('scopa-announcement');
+
 joinBtn.addEventListener('click', () => {
     const name = usernameInput.value.trim();
     if (!name) return alert('Inserisci un nome valido!');
@@ -71,11 +76,46 @@ socket.on('error-message', (msg) => {
     alert(msg);
 });
 
+// Mostra la scritta animata SCOPA!
+socket.on('scopa-made', () => {
+    if (scopaAnnouncement) {
+        scopaAnnouncement.style.display = 'block';
+        setTimeout(() => {
+            scopaAnnouncement.style.display = 'none';
+        }, 2500);
+    }
+});
+
+// Mostra i punteggi dettagliati a fine mano
 socket.on('hand-over', (data) => {
-    let msg = "Mano terminata!\n\nRisultati:\n";
-    msg += `Squadra 1 - Punti: ${data.scores[1]} (Scope: ${data.teams[1].scope})\n`;
-    msg += `Squadra 2 - Punti: ${data.scores[2]} (Scope: ${data.teams[2].scope})\n`;
-    alert(msg);
+    const s1 = data.scores.team1;
+    const s2 = data.scores.team2;
+
+    if (scoreBreakdown && scoreModal) {
+        scoreBreakdown.innerHTML = `
+            <div style="display: flex; justify-content: space-around; text-align: left;">
+                <div>
+                    <h3>Squadra 1</h3>
+                    <p>Scope: ${s1.scope}</p>
+                    <p>Denari: ${s1.denari} (${s1.denariTotal}/10)</p>
+                    <p>Carte: ${s1.carte} (${s1.carteTotal} carte)</p>
+                    <p>Settebello: ${s1.settebello}</p>
+                    <p>Primiera: ${s1.primiera}</p>
+                    <h4>Totale: ${s1.total}</h4>
+                </div>
+                <div>
+                    <h3>Squadra 2</h3>
+                    <p>Scope: ${s2.scope}</p>
+                    <p>Denari: ${s2.denari} (${s2.denariTotal}/10)</p>
+                    <p>Carte: ${s2.carte} (${s2.carteTotal} carte)</p>
+                    <p>Settebello: ${s2.settebello}</p>
+                    <p>Primiera: ${s2.primiera}</p>
+                    <h4>Totale: ${s2.total}</h4>
+                </div>
+            </div>
+        `;
+        scoreModal.style.display = 'flex';
+    }
 });
 
 function renderHand(hand) {
