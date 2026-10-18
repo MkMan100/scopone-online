@@ -118,6 +118,7 @@ class ScoponeGame {
         let isScopa = false;
         const handOver = Object.values(this.players).every(p => p.hand.length === 0);
 
+        // Controllo scopa (se il tavolo è vuoto e la mano non è finita)
         if (this.table.length === 0 && !handOver) {
             isScopa = true;
             this.teams[player.team].scope++;
@@ -125,7 +126,7 @@ class ScoponeGame {
 
         let finalScores = null;
         if (handOver) {
-            finalScores = this.calculateScore();
+            finalScores = this.calculateScoreDetailed();
         }
 
         return {
@@ -218,42 +219,59 @@ class ScoponeGame {
         return totalPrimiera;
     }
 
-    calculateScore() {
-        let scores = { 1: 0, 2: 0 };
-        
+    // Calcolo dettagliato restituito per mostrare i punti a schermo
+    calculateScoreDetailed() {
         const team1Captures = this.teams[1].captures;
         const team2Captures = this.teams[2].captures;
 
-        // Scope
-        scores[1] += this.teams[1].scope;
-        scores[2] += this.teams[2].scope;
+        const scope1 = this.teams[1].scope;
+        const scope2 = this.teams[2].scope;
 
-        // Carte (> 20)
-        if (team1Captures.length > 20) scores[1] += 1;
-        else if (team2Captures.length > 20) scores[2] += 1;
-
-        // Denari (> 5)
         const denari1 = team1Captures.filter(c => c.suit === 'denari').length;
         const denari2 = team2Captures.filter(c => c.suit === 'denari').length;
-        if (denari1 > 5) scores[1] += 1;
-        else if (denari2 > 5) scores[2] += 1;
+        const ptsDenari1 = denari1 > 5 ? 1 : (denari2 > 5 ? 0 : 0); // Maggioranza (>5)
+        const ptsDenari2 = denari2 > 5 ? 1 : 0;
 
-        // Settebello
-        const hasSettebello1 = team1Captures.some(c => c.suit === 'denari' && c.value === 7);
-        if (hasSettebello1) scores[1] += 1;
-        else scores[2] += 1;
+        const carte1 = team1Captures.length;
+        const carte2 = team2Captures.length;
+        const ptsCarte1 = carte1 > 20 ? 1 : 0;
+        const ptsCarte2 = carte2 > 20 ? 1 : 0;
 
-        // Primiera
+        const settebello1 = team1Captures.some(c => c.suit === 'denari' && c.value === 7) ? 1 : 0;
+        const settebello2 = settebello1 === 0 ? 1 : 0; // Se non ce l'ha 1, ce l'ha 2 (salvo tavoli vuoti particolari)
+
         const primiera1 = this.calculatePrimieraForTeam(team1Captures);
         const primiera2 = this.calculatePrimieraForTeam(team2Captures);
-        
-        if (primiera1 > 0 && primiera1 > primiera2) {
-            scores[1] += 1;
-        } else if (primiera2 > 0 && primiera2 > primiera1) {
-            scores[2] += 1;
-        }
+        let ptsPrimiera1 = 0;
+        let ptsPrimiera2 = 0;
+        if (primiera1 > primiera2) ptsPrimiera1 = 1;
+        else if (primiera2 > primiera1) ptsPrimiera2 = 1;
 
-        return scores;
+        const total1 = scope1 + ptsDenari1 + ptsCarte1 + settebello1 + ptsPrimiera1;
+        const total2 = scope2 + ptsDenari2 + ptsCarte2 + settebello2 + ptsPrimiera2;
+
+        return {
+            team1: {
+                scope: scope1,
+                denari: ptsDenari1,
+                denariTotal: denari1,
+                carte: ptsCarte1,
+                carteTotal: carte1,
+                settebello: settebello1,
+                primiera: primiera1,
+                total: total1
+            },
+            team2: {
+                scope: scope2,
+                denari: ptsDenari2,
+                denariTotal: denari2,
+                carte: ptsCarte2,
+                carteTotal: carte2,
+                settebello: settebello2,
+                primiera: primiera2,
+                total: total2
+            }
+        };
     }
 }
 
